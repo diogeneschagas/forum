@@ -1,4 +1,4 @@
-package br.com.alura.forum.config.validacao;
+package br.com.alura.forum.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import br.com.alura.forum.config.validacao.ErroDeFormDto;
+
 @RestControllerAdvice
 public class ErroValidacaoHandler {
 
@@ -22,7 +24,7 @@ public class ErroValidacaoHandler {
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	public List<ErroDeFormDto> handler(MethodArgumentNotValidException exception) {
-		List<ErroDeFormDto> dto = new ArrayList();
+		List<ErroDeFormDto> dto = new ArrayList<>();
 
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		fieldErrors.forEach(e -> {
