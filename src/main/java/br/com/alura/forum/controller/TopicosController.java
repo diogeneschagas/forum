@@ -36,7 +36,7 @@ public class TopicosController {
 	@Autowired
 	private TopicoRepository topicoRepository;
 	@Autowired
-	private CursoRepository CursoRepository;
+	private CursoRepository cursoRepository;
 	
 	@GetMapping
 	@ResponseBody
@@ -55,7 +55,7 @@ public class TopicosController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity<TopicoDto> cadastrar(@RequestBody @Valid TopicoForm form, UriComponentsBuilder uriBuilder) {
-		Topico topico = form.converter(CursoRepository);
+		Topico topico = form.converter(cursoRepository);
 		topicoRepository.save(topico);
 		
 		URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
