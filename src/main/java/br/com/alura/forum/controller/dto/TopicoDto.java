@@ -1,4 +1,4 @@
-package br.com.alura.forum.controller;
+package br.com.alura.forum.controller.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,13 +16,13 @@ public class TopicoDto { // No DTO ficam as informações REALMENTE necessárias
 	private Long id;
 	private String titulo;
 	private String mensagem;
-	private LocalDateTime dataCiacao;
+	private LocalDateTime dataCriacao;
 	
 	public TopicoDto(Topico topico) {
 		this.id = topico.getId();
 		this.titulo = topico.getTitulo();
 		this.mensagem = topico.getMensagem();
-		this.dataCiacao = topico.getDataCriacao();
+		this.dataCriacao = topico.getDataCriacao();
 		
 	}
 	
@@ -36,7 +36,7 @@ public class TopicoDto { // No DTO ficam as informações REALMENTE necessárias
 		return mensagem;
 	}
 	public LocalDateTime getDataCiacao() {
-		return dataCiacao;
+		return dataCriacao;
 	}
 
 	public static List<TopicoDto> converter(List<Topico> topicos) {
