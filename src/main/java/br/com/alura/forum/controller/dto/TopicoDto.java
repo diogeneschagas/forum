@@ -1,8 +1,8 @@
 package br.com.alura.forum.controller.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
 
 import br.com.alura.forum.modelo.Topico;
 
@@ -39,8 +39,14 @@ public class TopicoDto { // No DTO ficam as informações REALMENTE necessárias
 		return dataCriacao;
 	}
 
-	public static List<TopicoDto> converter(List<Topico> topicos) {
-		return topicos.stream().map(TopicoDto::new).collect(Collectors.toList());
+	public static Page<TopicoDto> converter(Page<Topico> topicos) {
+		/*
+		 * Aqui retornava um LIST
+		 * return topicos.stream().map(TopicoDto::new).collect(Collectors.toList());
+		 */	
+		
+		// Agora, retorna um PAGE
+		return topicos.map(TopicoDto::new);
 	}
 	
 	
