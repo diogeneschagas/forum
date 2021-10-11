@@ -64,6 +64,10 @@ public class TopicosController {
 
 	}
 
+	/*
+	 * OBSERVAÇÕES SOBRE O CACHE:
+	 * Só devemos pensar em cache quando temos informações que não são alteradas ou quase não são
+	*/	
 	@PostMapping
 	@Transactional
 	@CacheEvict(value = "listaDeTopicos", allEntries = true)
