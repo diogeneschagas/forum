@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/topicos").permitAll()
 		.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
-		.anyRequest().authenticated();
+		.anyRequest().authenticated() //indicar que outras URLs que não foram configuradas devem ter acesso restrito
+		.and().formLogin();
 	}
 
 	// Config de recursos estáticos (JS, CSS, imagens, etc)
