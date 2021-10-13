@@ -22,19 +22,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private AutenticacaoService autenticacaoService;
-	
+
 	@Autowired
 	private TokenService tokenService;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-	
+
 	@Override
 	@Bean
 	protected AuthenticationManager authenticationManager() throws Exception {
 		return super.authenticationManager();
 	}
-	
+
 	// Config autenticação (login, etc.)
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -45,26 +45,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers(HttpMethod.GET, "/topicos").permitAll()
-				.antMatchers(HttpMethod.GET, "/topicos/*").permitAll()
-				.antMatchers(HttpMethod.POST, "/auth").permitAll()
-				.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()	
+				.antMatchers(HttpMethod.GET, "/topicos/*").permitAll().antMatchers(HttpMethod.POST, "/auth").permitAll()
+				.antMatchers(HttpMethod.GET, "/actuator/**").permitAll() // RETIRAR ESSE PERMITALL PARA RESTRINGIR O
+																			// ACESSO AOS DADOS DA API
 				.anyRequest().authenticated() // indicar que
-																								// outras URLs que
-																									// não foram
-																									// configuradas
-																									// devem ter acesso
-																									// restrito
-				.and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
+												// outras URLs que
+												// não foram
+												// configuradas
+												// devem ter acesso
+												// restrito
+				.and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+				.addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository),
+						UsernamePasswordAuthenticationFilter.class);
 	}
 
 	// Config de recursos estáticos (JS, CSS, imagens, etc)
 	@Override
 	public void configure(WebSecurity web) throws Exception {
+	    web.ignoring()
+	        .antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**", "/swagger-resources/**");
 	}
-	
-	/* Gerador de HASH de SENHA
-	 * public static void main(String[] args) { System.out.println(new
-	 * BCryptPasswordEncoder().encode("123456")); }
+
+	/*
+	 * Gerador de HASH de SENHA public static void main(String[] args) {
+	 * System.out.println(new BCryptPasswordEncoder().encode("123456")); }
 	 */
 }
